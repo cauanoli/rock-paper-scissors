@@ -45,25 +45,26 @@ function game(numberOfRounds = 5) {
     let computerSelection = getRandomItem(possibleChoices);
     let isPlayerWinner = false;
 
-    // If its an invalid choice, ask the player to select again
     let isValidSelection = possibleChoices.includes(
       playerSelection.toLocaleLowerCase()
     );
-    while (!isValidSelection) {
-      playerSelection = prompt(
-        "Invalid choice! Please choice between rock, paper or scissors"
-      );
+
+    while (playerSelection === computerSelection || !isValidSelection) {
+      if (!isValidSelection) {
+        playerSelection = prompt(
+          "Invalid choice! Please choice between rock, paper or scissors"
+        );
+      }
+
+      if (playerSelection === computerSelection) {
+        console.log("It's a tie, play again!");
+        computerSelection = getRandomItem(possibleChoices);
+        playerSelection = prompt("Make a choice: Rock, paper or scissors?");
+      }
 
       isValidSelection = possibleChoices.includes(
         playerSelection.toLocaleLowerCase()
       );
-    }
-
-    // If it is a tie, ask the player to select again
-    while (playerSelection === computerSelection) {
-      console.log("It's a tie, play again!");
-      playerSelection = prompt("Make a choice: Rock, paper or scissors?");
-      computerSelection = getRandomItem(possibleChoices);
     }
 
     isPlayerWinner = getRoundWinner(playerSelection, computerSelection);
